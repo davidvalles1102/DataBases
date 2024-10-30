@@ -55,20 +55,20 @@ Mora decimal(18,2)
 );
 
 -- ====================== katherine    ======================================================================
--- 1 - Mostrar el nombre de los clientes que tengan m·s de 25 aÒos, ordenados de manera descendente seg˙n la edad:
+-- 1 - Mostrar el nombre de los clientes que tengan m√°s de 25 a√±os, ordenados de manera descendente seg√∫n la edad:
 SELECT Nombres, Apellidos, Edad
 FROM clientes
 WHERE Edad > 25
 ORDER BY Edad DESC;
 
--- 2 - Mostrar el nombre de los clientes que tengan entre 18 y 26 aÒos:
+-- 2 - Mostrar el nombre de los clientes que tengan entre 18 y 26 a√±os:
 SELECT Nombres, Apellidos, Edad
 FROM clientes
 WHERE Edad BETWEEN 18 AND 26;
 
 -- ======================    JC        ======================================================================
 
--- 3 - Mostrar todas las categorÌas de la tabla categorÌa, pero no mostrar Suspenso ni Drama:
+-- 3 - Mostrar todas las categor√≠as de la tabla categor√≠a, pero no mostrar Suspenso ni Drama:
 SELECT Categorias
 FROM categorias
 WHERE Categorias NOT IN ('Suspenso', 'Drama');
@@ -80,7 +80,7 @@ JOIN rentas ON clientes.DUI = rentas.DUI
 WHERE rentas.Mora > 0;
 
 -- ========================== Edwin =========================================================================
--- 7 - Modifique la categorÌa Juegos por Games
+-- 7 - Modifique la categor√≠a Juegos por Games
 
 update categorias set categorias = 'Games' where categorias = 'Juegos';
 select * from categorias;
@@ -100,7 +100,7 @@ SET categorias = CASE
                  END
 WHERE CodC IN ('C001', 'C002', 'C003', 'C004', 'C005', 'C006', 'C007', 'C008', 'C009', 'C010');
 
--- 8 - Modifique la fecha de ingreso a 13 de abril 2022 y la cantidad disponible a 10 de la pelÌcula de ACE Ventura(en una sola consulta)
+-- 8 - Modifique la fecha de ingreso a 13 de abril 2022 y la cantidad disponible a 10 de la pel√≠cula de ACE Ventura(en una sola consulta)
 
 select * from peliculas where Nombre = 'Ace Ventura';
 update peliculas set Fecha_Ingreso = '2003-04-13', Diponible = 10 where nombre = 'Ace Ventura';
@@ -123,23 +123,47 @@ inner join tipos t on p.CodT = t.CodT order by categorias asc;
 
 -- ======================DAVID Y MELVIN======================================================================
 
--- 5 - Mostrar los clientes y las fechas en que se han afiliado entre abril y junio del aÒo 2008:
+-- 5 - Mostrar los clientes y las fechas en que se han afiliado entre abril y junio del a√±o 2008:
 SELECT Nombres, Apellidos, Fecha_afiliacion
 FROM clientes
 WHERE Fecha_afiliacion BETWEEN '2008-04-01' AND '2008-06-30';
 
--- 6 - Mostrar el top 3 de pelÌculas que tienen m·s existencias disponibles en el renta video:
+-- 6 - Mostrar el top 3 de pel√≠culas que tienen m√°s existencias disponibles en el renta video:
 SELECT TOP 3 Nombre, Diponible
 FROM peliculas
 ORDER BY Diponible DESC;
 
 select * from peliculas;
 
--- 9 -Mostrar los nombres de las pelÌculas que comiencen con la letra A:
+-- 9 -Mostrar los nombres de las pel√≠culas que comiencen con la letra A:
 SELECT Nombre
 FROM peliculas
 WHERE Nombre LIKE 'A%';
 
--- 10 - Eliminar las rentas que realizÛ Pedro Arias Rivas Cisneros:
+-- 10 - Eliminar las rentas que realiz√≥ Pedro Arias Rivas Cisneros:
 DELETE FROM rentas
 WHERE DUI = (SELECT DUI FROM clientes WHERE Nombres = 'Pedro Arias' AND Apellidos = 'Rivas Cisneros');
+
+-- Inserci√≥n de datos en las tablas
+INSERT INTO clientes (Nombres, Apellidos, DUI, Fecha_afiliacion, Edad) 
+VALUES ('Juan', 'P√©rez', 1234567890, '2023-01-15', 30),
+       ('Mar√≠a', 'Gonz√°lez', 9876543210, '2023-02-20', 28);
+
+INSERT INTO tipos (CodT, Nombre_Tipo) 
+VALUES ('T001', 'Comedia'),
+       ('T002', 'Acci√≥n'),
+       ('T003', 'Drama');
+
+INSERT INTO categorias (CodC, Categorias) 
+VALUES ('C001', 'Infantiles'),
+       ('C002', 'Suspenso'),
+       ('C003', 'Romance');
+
+INSERT INTO peliculas (CodP, Nombre, CodT, CodC, Fecha_Ingreso, Diponible) 
+VALUES ('P001', 'Ace Ventura', 'T001', 'C001', '2023-04-01', 5),
+       ('P002', 'Titanic', 'T002', 'C003', '2023-04-02', 3);
+
+INSERT INTO rentas (CodR, CodP, DUI, Fecha_Ingreso, Fecha_Devolucion, Cobro, Mora) 
+VALUES ('R001', 'P001', 1234567890, '2023-04-10', '2023-04-17', 10.00, 0.00),
+       ('R002', 'P002', 9876543210, '2023-04-11', '2023-04-18', 15.00, 2.00);
+
